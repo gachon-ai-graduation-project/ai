@@ -1,0 +1,19 @@
+data*/*.npz
+data*-norm/*.npz
+*.npz
+.DS_Store
+/data*-norm/
+
+application2 inference.ipynb
+data11_inference_results.xlsx
+train_lstm.ipynb
+train_lstm_tensorflow.ipynb
+saved_model/lstm*
+models/LSTM1.py
+.env
+data_label/
+train_gru.ipynb
+word2idx.json
+idx2word.json
+gru_tensor_44.h5
+save_keypoint.ipynb
