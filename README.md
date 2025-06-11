@@ -60,11 +60,6 @@ python version : **python=3.9.21**
 word2idx2.json 에 속한 단어에 한해서 인식 가능합니다.
 
 ---
-## 모델 성능
-![output](https://github.com/user-attachments/assets/6c1b1efb-443f-48e7-8895-6f735e0209ea)
-131개의 단어에 대해서 92% test accuarcy를 달성했다 
-
----
 
 ## 모델 학습 과정
 
@@ -109,6 +104,11 @@ GRU는 RNN의 일종으로, 시간적 정보를 유지하면서도 계산량이 
 이는 특히 학습 데이터가 제한적이거나 noise가 포함된 경우 유용하며, 모델의 일반화 성능을 높여주는 역할을 합니다.
 
 이러한 구조 덕분에 모델은 수어 동작의 시간적 흐름과 손 모양의 변화를 효과적으로 학습하고, 다양한 문맥 속에서도 안정적인 수어 단어 예측이 가능합니다.
+
+---
+## 모델 성능
+![output](https://github.com/user-attachments/assets/6c1b1efb-443f-48e7-8895-6f735e0209ea)
+131개의 단어에 대해서 92% test accuarcy를 달성했다 
 
 ---
 
