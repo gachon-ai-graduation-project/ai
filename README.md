@@ -1,11 +1,27 @@
 
-# 🎓 AI 졸업 프로젝트 (수정필요)
+# ✨ GRU 기반 수어 인식 프로젝트 (TensorFlow)
 
-이 저장소는 PyTorch를 사용하여 가변 길이 시퀀스 데이터를 처리합니다. 이 프로젝트는 신경망, 시퀀스 처리, OpenAI API를 활용한 고급 기능들을 기반으로 합니다.
+이 프로젝트는 TensorFlow 기반의 GRU 모델을 사용하여 MediaPipe에서 추출한 키포인트 시계열 데이터를 학습하고, 수어(수화)를 인식하는 딥러닝 파이프라인을 구현한 것입니다. 키포인트 정규화, 라벨링, 모델 학습 및 테스트 영상을 포함한 전체 흐름이 구성되어 있습니다.
 
 ---
 
-## 📦 필요 라이브러리 및 파이썬 버전
+## 프로젝트 구성
+
+### 주요 파일
+
+| 파일명 | 설명 |
+|--------|------|
+| `save_keypoint_norm.ipynb` | aihub 키포인트 데이터를 정규화 및 저장 |
+| `save_data_label.ipynb` | 수어 키포인트 데이터에 라벨을 지정 |
+| `save_test_video.ipynb` | 테스트용 영상 데이터 저장 처리 |
+| `train_gru_tensorflow.ipynb` | TensorFlow 기반 GRU 모델 학습 수행 |
+| `word_index_dict.ipynb` | 단어 인덱스 딕셔너리 생성 및 시각화 도구 |
+| `application2.ipynb` | 전체 모델 통합 응용 및 평가 구현 |
+| `gemini.py` | 모델 서빙 또는 보조 기능 스크립트 (추정) |
+
+---
+
+## 파이썬 버전 및 사용 라이브러리
 
 python version : **python=3.9.21**
 
@@ -14,7 +30,7 @@ python version : **python=3.9.21**
 
 - **PyTorch**
 - **opencv-python**
-- **mediapipe**
+- **mediapipe** (키포인트 추출)
 - **pillow**
 - **tensorflow**
 - **numpy**
@@ -24,7 +40,7 @@ python version : **python=3.9.21**
 
 ---
 
-## 🔧 설치 방법
+## 사용 방법
 
 1. **필요 라이브러리 설치**
    ```bash
@@ -37,20 +53,22 @@ python version : **python=3.9.21**
    OPENAI_API_KEY="sk-XXXXXXXX"
    GEMINI_API_URL="xxxx"
    ```
+3. **수어 인식 프로그램 실행 (캠 필요)**
+   ```bash
+   application.ipynb 실행
+   ```
+word2idx2.json 에 속한 단어에 한해서 인식 가능합니다.
 
 ---
 
-## 💬 사용법
+## 모델 학습 과정
 
-### 대화 인터페이스 실행
-```bash
-application.ipynb 실행
-```
-→ AI와 실시간으로 대화할 수 있는 인터페이스에 메시지를 입력하세요.
 
----
 
-## 📂 데이터 처리 방식
+
+### 📂 데이터 준비
+[AIhub 수어 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=103)
+
 
 - **시퀀스 처리 방식**:
   - 지정된 `max_length`를 초과하는 시퀀스는 잘리고, 짧은 시퀀스는 0으로 패딩됩니다.
@@ -91,7 +109,7 @@ application.ipynb 실행
 
 ---
 
-## ⚙️ 모델 실행 흐름
+## ⚙️ 모델 학습 흐름
 
 1. **데이터 로딩**
    - `load_data`로 데이터셋 불러오기 및 정규화 수행
