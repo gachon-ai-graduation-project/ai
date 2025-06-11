@@ -1,17 +1,24 @@
 
-# 🎓 AI 졸업 프로젝트
+# 🎓 AI 졸업 프로젝트 (수정필요)
 
-이 저장소는 PyTorch를 사용하여 가변 길이 시퀀스 데이터를 처리하고, AI 모델과의 대화형 인터페이스를 통합한 AI 시스템을 포함하고 있습니다. 이 프로젝트는 신경망, 시퀀스 처리, OpenAI API를 활용한 고급 기능들을 기반으로 합니다.
+이 저장소는 PyTorch를 사용하여 가변 길이 시퀀스 데이터를 처리합니다. 이 프로젝트는 신경망, 시퀀스 처리, OpenAI API를 활용한 고급 기능들을 기반으로 합니다.
 
 ---
 
-## 📦 필요 라이브러리
+## 📦 필요 라이브러리 및 파이썬 버전
+
+python version : **python=3.9.21**
 
 이 프로젝트는 다음과 같은 라이브러리를 필요로 합니다:
 
+
 - **PyTorch**
+- **opencv-python**
+- **mediapipe**
+- **pillow**
+- **tensorflow**
 - **numpy**
-- **openai** (API 통합용)
+- **openai** 
 - **dotenv** (API 키와 같은 비밀값 불러오기)
 - 주요 유틸리티: `sys`, `os` 및 표준 모듈
 
@@ -21,13 +28,14 @@
 
 1. **필요 라이브러리 설치**
    ```bash
-   pip install torch numpy openai python-dotenv
+   pip install opencv-python mediapipe numpy torch pillow tensorflow openai python-dotenv
    ```
 
 2. **환경 변수 설정**
-   `.env` 파일 생성 (예시):
+   `.env` 파일 생성:
    ```env
    OPENAI_API_KEY="sk-XXXXXXXX"
+   GEMINI_API_URL="xxxx"
    ```
 
 ---
@@ -36,7 +44,7 @@
 
 ### 대화 인터페이스 실행
 ```bash
-python main.py chat
+application.ipynb 실행
 ```
 → AI와 실시간으로 대화할 수 있는 인터페이스에 메시지를 입력하세요.
 
@@ -92,14 +100,3 @@ python main.py chat
 2. **모델 처리**
    - `lengths` 정보를 함께 넘겨 RNN 최적화
 
----
-
-## 👥 제작진
-
-가천대학교 AI 팀의 졸업 프로젝트입니다.
-
-협업 또는 문의가 있으시면 언제든지 연락주세요!
-
----
-
-이 README는 제공된 코드 구조, 함수, 주석을 바탕으로 작성된 것이며, 누락된 맥락이 있다면 이에 맞게 조정해 주세요.
