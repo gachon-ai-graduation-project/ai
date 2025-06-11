@@ -4,6 +4,19 @@
 이 프로젝트는 TensorFlow 기반의 GRU 모델을 사용하여 MediaPipe에서 추출한 키포인트 시계열 데이터를 학습하고, 수어(수화)를 인식하는 딥러닝 파이프라인을 구현한 것입니다. 키포인트 정규화, 라벨링, 모델 학습 및 테스트 영상을 포함한 전체 흐름이 구성되어 있습니다.
 
 ---
+## 프로젝트 담당자
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://github.com/hyeonji91"><img src="https://github.com/hyeonji91.png"width="100px;" alt=""/><br /><sub><b> AI : 김현지 </b></sub></a><br /></td>
+    </tr>
+  </tbody>
+</table>
+
+## 기술스택
+<img src="https://img.shields.io/badge/numpy-013243?style=for-the-badge&logo=numpy&logoColor=white"><img src="https://img.shields.io/badge/pytorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white"><img src="https://img.shields.io/badge/jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white"><img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white"><img src="https://img.shields.io/badge/tensorflow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white"><img src="https://img.shields.io/badge/mediapipe-0097A7?style=for-the-badge&logo=mediapipe&logoColor=white"><img src="https://img.shields.io/badge/opencv-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white">
+
+
 
 ## 프로젝트 구성
 
