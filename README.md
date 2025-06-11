@@ -60,22 +60,27 @@ python version : **python=3.9.21**
 word2idx2.json 에 속한 단어에 한해서 인식 가능합니다.
 
 ---
+## 모델 성능
+![output](https://github.com/user-attachments/assets/6c1b1efb-443f-48e7-8895-6f735e0209ea)
+131개의 단어에 대해서 92% test accuarcy를 달성했다 
+
+---
+
 ## 모델 학습 과정
 
 1. **데이터 준비**
    - [AIhub 수어 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=103)
-
+   - 선별된 131개의 단어에 대해서 정면 영상 (F)를 이용했다
+   - 총 1401개의 데이터를 사용했다
 2. **키포인트 정규화 및 라벨링**
+   왼손(21x2), 오른손(21x2) 총 84개의 키포인트를 이용했다.  
    - `save_keypoint_norm.ipynb` 실행
    - `save_data_label.ipynb` 실행
 
-3. **테스트 영상 준비**
-   - `save_test_video.ipynb` 사용하여 테스트셋 구성
-
-4. **모델 학습**
+3. **모델 학습**
    - `train_gru_tensorflow.ipynb`에서 모델 학습 수행
 
-5. **응용 및 결과 확인**
+4. **응용 및 결과 확인**
    - `application2.ipynb` 실행
 
 ---
