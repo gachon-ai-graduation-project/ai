@@ -60,61 +60,55 @@ python version : **python=3.9.21**
 word2idx2.json 에 속한 단어에 한해서 인식 가능합니다.
 
 ---
-
 ## 모델 학습 과정
 
+1. **데이터 준비**
+   - [AIhub 수어 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=103)
 
+2. **키포인트 정규화 및 라벨링**
+   - `save_keypoint_norm.ipynb` 실행
+   - `save_data_label.ipynb` 실행
 
+3. **테스트 영상 준비**
+   - `save_test_video.ipynb` 사용하여 테스트셋 구성
 
-### 📂 데이터 준비
-[AIhub 수어 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=103)
+4. **모델 학습**
+   - `train_gru_tensorflow.ipynb`에서 모델 학습 수행
 
+5. **응용 및 결과 확인**
+   - `application2.ipynb` 실행
 
-- **시퀀스 처리 방식**:
+---
+
+**시퀀스 처리 방식**:
   - 지정된 `max_length`를 초과하는 시퀀스는 잘리고, 짧은 시퀀스는 0으로 패딩됩니다.
-  - 원본 시퀀스 길이는 `lengths` 텐서에 저장되어 효율적인 RNN 처리를 가능하게 합니다.
-
-- **주요 기능**:
-  - `.npz` 형식의 키포인트 또는 센서 데이터를 불러옵니다.
-  - 예시 출력:
-    > `print(f"⚠️ Padding {npz_path}: keypoints shape={keypoints.shape}")`
+  - 모델 학습 시 `nn.utils.rnn.pack_padded_sequence`를 사용하여 패딩된 시퀀스를 처리합니다
 
 ---
 
-## 🧠 모델 구성
+## 모델 구성 설명
+이 프로젝트는 GRU (Gated Recurrent Unit) 기반의 순환 신경망을 이용해 수어(수화) 시계열 데이터를 분류합니다.
+입력은 MediaPipe를 통해 추출한 손 키포인트 좌표 시계열이며, 일반적으로 (batch_size, time_steps, keypoints) 형태의 데이터를 사용합니다.
 
-### 네트워크 구조
+GRU는 RNN의 일종으로, 시간적 정보를 유지하면서도 계산량이 비교적 적어 학습이 빠르다는 장점이 있습니다.
+이 프로젝트에서는 다음과 같은 네트워크 구성을 따릅니다:
+- GRU(units=128, return_sequences=False, dropout=0.3, recurrent_dropout=0.3)
+     - 입력 시퀀스를 처리하면서 과적합을 방지하기 위해 dropout과 recurrent_dropout을 함께 사용합니다.
+- Dropout(0.3)
+     - GRU 외부에서도 추가적인 정규화를 적용합니다.
+- Dense(units=num_classes, activation='softmax')
+     - 수어 단어 분류를 위한 최종 출력층입니다.
 
-- **PyTorch 레이어**로 구성되며, LSTM/GRU/RNN 등 시퀀스 데이터에 최적화되어 있음
-- **입력 차원**:
-  - `x.shape → (batch, seq_length, input_features)`
-  - `lengths.shape → (batch)` ← 시퀀스 길이 정보
+여기서 recurrent_dropout은 **순환 연결**(이전 시점 은닉 상태로부터 현재 은닉 상태로 가는 경로)에도 드롭아웃을 적용하는 기능입니다.
+일반적인 dropout이 입력과 출력의 연결을 무작위로 끊는다면, recurrent_dropout은 시계열 정보의 흐름 자체에도 일정 확률로 끊김을 줌으로써 모델이 특정 시간 패턴에 과도하게 의존하는 것을 막아줍니다.
+이는 특히 학습 데이터가 제한적이거나 noise가 포함된 경우 유용하며, 모델의 일반화 성능을 높여주는 역할을 합니다.
 
-### 주요 컴포넌트
-
-- `nn.utils.rnn.pack_padded_sequence`를 사용하여 패딩된 시퀀스를 효율적으로 처리
-- **드롭아웃 전략**:
-  - 은닉 상태에 대한 순환 드롭아웃
-  - 레이어 간 드롭아웃은 학습 파라미터에 따라 조절
-
----
-
-## 🔁 핵심 함수
-
-| 함수명       | 용도 설명 |
-|-------------|-----------|
-| `ai_chat()` | 실시간 대화 인터페이스 시작 |
-| `ask(query)`| OpenAI 또는 커스텀 모델을 이용한 질의 응답 |
-| `load_data()`| `.npz` 파일 등에서 데이터셋 로딩 및 전처리 |
+이러한 구조 덕분에 모델은 수어 동작의 시간적 흐름과 손 모양의 변화를 효과적으로 학습하고, 다양한 문맥 속에서도 안정적인 수어 단어 예측이 가능합니다.
 
 ---
 
-## ⚙️ 모델 학습 흐름
+## 📌 기타 참고사항
 
-1. **데이터 로딩**
-   - `load_data`로 데이터셋 불러오기 및 정규화 수행
-   - 고정 길이로 자르거나 패딩 처리
-
-2. **모델 처리**
-   - `lengths` 정보를 함께 넘겨 RNN 최적화
-
+- `light_data_label/` 디렉토리에는 라벨링된 엑셀 파일들이 포함되어 있습니다.
+- `.ttf` 파일(`AppleGothic.ttf`)은 한글 시각화를 위한 폰트 리소스로 사용될 수 있습니다.
+- `.json` 파일(`word2idx2.json`, `idx2word2.json`)은 모델 입출력용 단어 인덱스 매핑에 사용됩니다.
